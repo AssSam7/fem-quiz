@@ -5,6 +5,7 @@ import { useState } from "react";
 import Option from "./components/Option";
 import Welcome from "./components/Welcome";
 import QuestionCard from "./components/QuestionCard";
+import OptionList from "./components/OptionList";
 
 function App() {
   const subjects = data.quizzes.map((item) => ({
@@ -42,15 +43,7 @@ function App() {
         />
       ) : (
         <Welcome>
-          <div className="w-[45%] flex flex-col gap-5">
-            {subjects.map((option) => (
-              <Option
-                option={option}
-                key={option.title}
-                handleClick={onQuizStart}
-              />
-            ))}
-          </div>
+          <OptionList options={subjects} onClick={onQuizStart} />
         </Welcome>
       )}
     </div>
