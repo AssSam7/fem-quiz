@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import Option from "./components/Option";
 import Welcome from "./components/Welcome";
+import QuestionCard from "./components/QuestionCard";
 
 function App() {
   const subjects = data.quizzes.map((item) => ({
@@ -11,16 +12,25 @@ function App() {
     iconName: item.icon,
   }));
 
-  const [isQuizStarted, setIsQuizStarted] = useState(false);
+  const [selectedTopic, setSelectedTopic] = useState("");
+  const [currentQuestionNumber, setCurrentQuestionNumber] = useState(0);
 
-  const onQuizStart = () => {
-    setIsQuizStarted(true);
+  const onQuizStart = (topic) => {
+    const topicData = data.quizzes.filter((item) => item.title === topic);
+    console.log("Topic Data is: ", topicData);
+    setSelectedTopic(topicData[0]);
   };
 
   return (
     <div className="container">
-      {isQuizStarted ? (
-        <></>
+      {selectedTopic ? (
+        <QuestionCard
+          question={{
+            id: currentQuestionNumber + 1,
+            total: selectedTopic.questions.length,
+            ...selectedTopic.questions[currentQuestionNumber],
+          }}
+        />
       ) : (
         <Welcome>
           <div className="w-[45%] flex flex-col gap-5">
@@ -28,7 +38,7 @@ function App() {
               <Option
                 option={option}
                 key={option.title}
-                onClick={onQuizStart}
+                handleClick={onQuizStart}
               />
             ))}
           </div>
