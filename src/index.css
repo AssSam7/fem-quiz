@@ -3,13 +3,23 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: 'Rubik';
-  src: url('./assets/fonts/Rubik-VariableFont_wght.ttf')
+  font-family: "Rubik";
+  src: url("./assets/fonts/Rubik-VariableFont_wght.ttf");
 }
 
 body {
   margin: 0;
-  font-family: 'Rubik', sans-serif;
+  font-family: "Rubik", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: url("./assets/images/pattern-background-desktop-light.svg"),
+    linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2));
+  background-blend-mode: overlay;
+  height: 100vh;
+}
+
+@layer components {
+  .container {
+    @apply mx-[150px];
+  }
 }
