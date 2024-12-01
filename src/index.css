@@ -19,7 +19,11 @@ body {
 }
 
 @layer components {
+  body {
+    @apply flex justify-center items-center;
+  }
+
   .container {
-    @apply mx-[150px];
+    @apply mx-[150px] w-[80vw];
   }
 }

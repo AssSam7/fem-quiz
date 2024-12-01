@@ -1,5 +1,11 @@
+import Welcome from "./components/Welcome";
+
 function App() {
-  return <h1 className="text-2xl text-dark-navy text-center">Hello World</h1>;
+  return (
+    <div className="container">
+      <Welcome />
+    </div>
+  );
 }
 
 export default App;
