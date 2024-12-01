@@ -14,11 +14,18 @@ function App() {
 
   const [selectedTopic, setSelectedTopic] = useState("");
   const [currentQuestionNumber, setCurrentQuestionNumber] = useState(0);
+  const [score, setScore] = useState(0);
 
   const onQuizStart = (topic) => {
     const topicData = data.quizzes.filter((item) => item.title === topic);
     console.log("Topic Data is: ", topicData);
     setSelectedTopic(topicData[0]);
+  };
+
+  const handleNextQuestion = () => {
+    if (currentQuestionNumber <= selectedTopic.questions.length) {
+      setCurrentQuestionNumber((prevNumber) => prevNumber + 1);
+    }
   };
 
   return (
@@ -30,6 +37,8 @@ function App() {
             total: selectedTopic.questions.length,
             ...selectedTopic.questions[currentQuestionNumber],
           }}
+          onNextQuestion={handleNextQuestion}
+          handleScore={setScore}
         />
       ) : (
         <Welcome>
