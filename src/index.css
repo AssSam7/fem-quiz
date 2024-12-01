@@ -26,4 +26,12 @@ body {
   .container {
     @apply mx-[150px] w-[80vw];
   }
+
+  .option {
+    @apply w-full h-[96px] bg-pure-white shadow-lg flex items-center gap-[22px] rounded-2xl cursor-pointer p-7;
+  }
+
+  .option-active {
+    @apply border-4 border-purple;
+  }
 }

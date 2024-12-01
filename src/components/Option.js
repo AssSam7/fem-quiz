@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function Option({ option, handleClick }) {
+export default function Option({ option, handleClick, selectedAnswer }) {
   const [icon, setIcon] = useState("");
 
   useEffect(() => {
@@ -11,11 +11,14 @@ export default function Option({ option, handleClick }) {
     if (option.iconName) {
       importIcon();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div
-      className="w-full h-[96px] bg-pure-white shadow-lg flex items-center gap-[22px] rounded-2xl cursor-pointer p-7"
+      className={
+        selectedAnswer === option.title ? `option option-active` : "option"
+      }
       role="button"
       onClick={() => handleClick(option.title)}
     >
