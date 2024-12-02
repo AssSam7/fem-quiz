@@ -1,65 +1,97 @@
 import data from "./data.json";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import OptionList from "./components/OptionList";
 import QuestionCard from "./components/QuestionCard";
 import Welcome from "./components/Welcome";
+import QuizResult from "./components/QuizResult";
 
 function App() {
-  const [selectedTopic, setSelectedTopic] = useState("");
-  const [currentQuestionNumber, setCurrentQuestionNumber] = useState(0);
+  const [quiz, setQuiz] = useState();
+  const [questionNum, setQuestionNum] = useState(0);
   const [score, setScore] = useState(0);
+  const [quizCompleted, setQuizCompleted] = useState(false);
 
   const subjects = data.quizzes.map((item) => ({
     title: item.title,
     iconName: item.icon,
   }));
-  const currentQuestionObj =
-    selectedTopic && selectedTopic?.questions[currentQuestionNumber];
-  const qOptions =
-    currentQuestionObj &&
-    currentQuestionObj?.options.map((option, i) => ({
-      id: i + 1,
-      title: option,
-    }));
+
+  const totalQuestions = quiz && quiz.questions.length;
+  const questionObj = useMemo(() => {
+    if (quiz) {
+      return quiz.questions[questionNum];
+    }
+    return null;
+  }, [quiz, questionNum]);
+
+  const quizOptions = useMemo(() => {
+    if (questionObj) {
+      return questionObj?.options.map((option, i) => ({
+        id: i + 1,
+        title: option,
+      }));
+    }
+    return null;
+  }, [questionObj]);
 
   const onQuizStart = (topic) => {
-    const topicData = data.quizzes.filter((item) => item.title === topic);
-    console.log("Topic Data is: ", topicData);
-    setSelectedTopic(topicData[0]);
+    const quizTopicObj = data.quizzes.filter((item) => item.title === topic);
+    setQuiz(quizTopicObj[0]);
   };
 
-  const onNextQuestion = useCallback(() => {
-    if (
-      selectedTopic &&
-      currentQuestionNumber <= selectedTopic.questions.length
-    ) {
-      setCurrentQuestionNumber((prevNum) => prevNum + 1);
+  const handleNext = (result) => {
+    if (result && !quizCompleted) {
+      setQuestionNum((prevQuesNum) =>
+        prevQuesNum < totalQuestions ? prevQuesNum + 1 : 0
+      );
+      setScore((prevScore) => prevScore + 1);
+    } else if (!quizCompleted) {
+      setQuestionNum((prevQuesNum) =>
+        prevQuesNum < totalQuestions ? prevQuesNum + 1 : 0
+      );
     }
-  }, [currentQuestionNumber, selectedTopic]);
+  };
+
+  useEffect(() => {
+    if (questionNum === totalQuestions - 1) {
+      setQuizCompleted(true);
+    }
+  }, [questionNum, totalQuestions]);
+
+  useEffect(() => {
+    console.log("Score is: ", score);
+  }, [score]);
 
   return (
     <div className="container">
-      {selectedTopic ? (
+      {quiz && !quizCompleted ? (
         <QuestionCard
           question={{
-            id: currentQuestionNumber + 1,
-            total: selectedTopic.questions.length,
-            ...selectedTopic.questions[currentQuestionNumber],
+            id: questionNum + 1,
+            total: quiz.questions.length,
+            ...quiz.questions[questionNum],
           }}
         >
           <OptionList
-            options={qOptions}
-            answer={currentQuestionObj.answer}
-            onClick={(answer) => console.log(answer)}
-            handleNextQuestion={onNextQuestion}
+            options={quizOptions}
+            answer={questionObj.answer}
+            onClick={() => {}}
+            handleNext={handleNext}
           />
         </QuestionCard>
-      ) : (
+      ) : !quizCompleted ? (
         <Welcome>
           <OptionList options={subjects} onClick={onQuizStart} />
         </Welcome>
+      ) : (
+        <QuizResult
+          title={quiz.title}
+          iconName={quiz.icon}
+          score={score}
+          total={totalQuestions}
+        />
       )}
     </div>
   );

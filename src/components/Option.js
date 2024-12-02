@@ -24,7 +24,11 @@ export default function Option({
   }, []);
 
   const renderResultIcon = () => {
-    if (answerSubmitted && option.title === correctAnswer) {
+    if (
+      answerSubmitted &&
+      option.title === correctAnswer &&
+      selectedAnswer !== ""
+    ) {
       return <CorrectAnswerIcon />;
     } else if (
       answerSubmitted &&

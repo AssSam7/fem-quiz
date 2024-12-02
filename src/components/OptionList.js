@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
 import Option from "./Option";
+import { ReactComponent as WrongAnswerIcon } from "../assets/images/icon-incorrect.svg";
 
-export default function OptionList({
-  options,
-  answer,
-  onClick,
-  handleNextQuestion,
-}) {
+export default function OptionList({ options, answer, onClick, handleNext }) {
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [isAnswerSubmitted, setIsAnswerSubmitted] = useState(false);
+  const [showSelectOptionError, setShowSelectOptionError] = useState(false);
 
   const onSelectAnswer = (answer) => {
     setSelectedAnswer(answer);
@@ -16,7 +13,21 @@ export default function OptionList({
   };
 
   const handleSubmitAnswer = () => {
-    setIsAnswerSubmitted(true);
+    if (selectedAnswer) {
+      setShowSelectOptionError(false);
+      setIsAnswerSubmitted(true);
+      proceedToNext();
+    } else {
+      setShowSelectOptionError(true);
+    }
+  };
+
+  const proceedToNext = () => {
+    if (isAnswerSubmitted) {
+      handleNext(selectedAnswer === answer);
+      setSelectedAnswer("");
+      setIsAnswerSubmitted(false);
+    }
   };
 
   return (
@@ -38,6 +49,12 @@ export default function OptionList({
         >
           {isAnswerSubmitted ? "Next Question" : "Submit Answer"}
         </button>
+      )}
+      {showSelectOptionError && (
+        <p className="text-red text-[24px] flex self-center gap-3">
+          <WrongAnswerIcon />
+          Please select an answer
+        </p>
       )}
     </div>
   );
