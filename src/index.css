@@ -12,9 +12,8 @@ body {
   font-family: "Rubik", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url("./assets/images/pattern-background-desktop-light.svg"),
-    linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2));
-  background-blend-mode: overlay;
+  background-image: url("./assets/images/pattern-background-desktop-light.svg");
+  background-color: #f4f6fa;
   height: 100vh;
 }
 

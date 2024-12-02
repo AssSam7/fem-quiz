@@ -19,12 +19,6 @@ export default function OptionList({
     setIsAnswerSubmitted(true);
   };
 
-  useEffect(() => {
-    if (isAnswerSubmitted) {
-      handleNextQuestion();
-    }
-  }, [isAnswerSubmitted]);
-
   return (
     <div className="w-[45%] flex flex-col gap-5">
       {options.map((option) => (
