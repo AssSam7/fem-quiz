@@ -34,4 +34,16 @@ body {
   .option-active {
     @apply border-4 border-purple;
   }
+
+  .option-active-correct {
+    @apply border-4 border-green;
+  }
+
+  .option-active-wrong {
+    @apply border-4 border-red;
+  }
+
+  .option-disable {
+    @apply cursor-not-allowed !important;
+  }
 }

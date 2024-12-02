@@ -1,6 +1,6 @@
 import data from "./data.json";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import OptionList from "./components/OptionList";
 import QuestionCard from "./components/QuestionCard";
@@ -30,6 +30,15 @@ function App() {
     setSelectedTopic(topicData[0]);
   };
 
+  const onNextQuestion = useCallback(() => {
+    if (
+      selectedTopic &&
+      currentQuestionNumber <= selectedTopic.questions.length
+    ) {
+      setCurrentQuestionNumber((prevNum) => prevNum + 1);
+    }
+  }, [currentQuestionNumber, selectedTopic]);
+
   return (
     <div className="container">
       {selectedTopic ? (
@@ -44,6 +53,7 @@ function App() {
             options={qOptions}
             answer={currentQuestionObj.answer}
             onClick={(answer) => console.log(answer)}
+            handleNextQuestion={onNextQuestion}
           />
         </QuestionCard>
       ) : (
