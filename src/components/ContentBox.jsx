@@ -10,6 +10,10 @@ export default function ContentBox({ ques, quizCompleted }) {
             {ques.question}
           </h1>
         </>
+      ) : quizCompleted ? (
+        <h1 className="text-2xl text-dark-navy font-thin">
+          Quiz Completed <span className="font-bold">You scored...</span>
+        </h1>
       ) : (
         <>
           <h1 className="text-2xl text-dark-navy font-thin">
@@ -17,12 +21,6 @@ export default function ContentBox({ ques, quizCompleted }) {
           </h1>
           <p className="text-grey-navy italic">Pick a subject to get started</p>
         </>
-      )}
-
-      {quizCompleted && (
-        <h1 className="text-2xl text-dark-navy font-thin">
-          Quiz Completed <span className="font-bold">You scored...</span>
-        </h1>
       )}
     </div>
   );

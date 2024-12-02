@@ -55,10 +55,11 @@ function App() {
   };
 
   useEffect(() => {
+    console.log("Quiz completed: ", quizCompleted);
     if (questionNum === totalQuestions - 1) {
       setQuizCompleted(true);
     }
-  }, [questionNum, totalQuestions]);
+  }, [questionNum, quizCompleted, totalQuestions]);
 
   useEffect(() => {
     console.log("Score is: ", score);
@@ -81,17 +82,17 @@ function App() {
             handleNext={handleNext}
           />
         </QuestionCard>
-      ) : !quizCompleted ? (
-        <Welcome>
-          <OptionList options={subjects} onClick={onQuizStart} />
-        </Welcome>
-      ) : (
+      ) : quizCompleted ? (
         <QuizResult
           title={quiz.title}
           iconName={quiz.icon}
           score={score}
           total={totalQuestions}
         />
+      ) : (
+        <Welcome>
+          <OptionList options={subjects} onClick={onQuizStart} />
+        </Welcome>
       )}
     </div>
   );
